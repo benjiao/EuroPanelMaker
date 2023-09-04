@@ -2,23 +2,19 @@
 
 ![GitHub Releases](https://img.shields.io/github/release/benjiaomodular/EuroPanelMaker?sort=date)
 
-Community
-
-    GitHub
-
-Open Collective
-Discord
-Twitter
-Awesome Badges
-Stats
-
-    Service Status
-
-Metrics dashboard
-Copyright © 2023 Shields.io. Built with Docusaurus.)
-
-
 Eurorack panel generator for OpenSCAD by [@benjiaomodular](https://www.instagram.com/benjiaomodular/).
+
+## Sample Usage 
+```
+import <EuroPanelMaker/panel.scad>
+
+hp = 4;              # width of module in horizontal pitch
+title = "VCA"        # a title to display on top
+pots = [];
+jacks = [];
+
+generatePanel();
+```
 
 ![Template preview](preview.png)
 
@@ -26,86 +22,24 @@ I talked about how and why I developed this library on my Youtube channel. Spons
 
 [![Watch the video](https://img.youtube.com/vi/8PgxXPMlfh4/0.jpg)](https://youtu.be/8PgxXPMlfh4)
 
-## How to use
+## Installation
 
-### Installing
-
-Copy the `EuroPanelMaker` folder into your project directory.
+Download the [latest release](https://github.com/benjiaomodular/EuroPanelMaker/releases/latest) and copy the `EuroPanelMaker` folder into your project directory.
 
 ![Project dir](projectdir.png)
 
-### Importing
+## Parameters
 
-Include the `panel.scad` file into your project.
-```
-include <EuroPanelMaker/panel.scad>
-```
+### Mandatory variables
 
-### Basic Usage
-
-First, define the mandatory variables.
 ```
 hp = 4;
 title = "VCA";
 ```
 
-Then, define any potentiometers, jacks, switches, and LEDs you need.
-```
-pots = [
-    [x (in HP column), y (mm), label, rotation (degrees)]
-];
+### Optional parameters
+A number of variables can be altered. Instert any of these configurations before the list of components. Here is a list with their default values:
 
-pots_rd901f = [
-    [x (in HP column), y (mm), label, rotation (degrees)]
-];
-
-jacks = [
-    [x (in HP column), y (mm), label, size, rotation (degrees)]
-];
-
-// MTS-102
-switches = [
-    [x (in HP column), y (mm), label above, label below, rotation (degrees)]
-];
-
-switches_sr16 = [
-    [x (in HP column), y (mm), label, rotation (degrees)]
-];
-
-leds = [
-    [x (in HP column), y (mm), diameter (mm)]
-];
-
-keys = [
-    [x (in HP column, y (mm), label)],
-];
-
-rectangular_holes = [
-    [x, y, inner_width (mm), inner_height (mm), outer_width (mm), outer_height (mm)]
-];
-
-spacers = [
-    [x, y, size (2, 2.5, 3, 4, 5, 6)]
-];
-```
-
-Add as many components as necessary in each array. Some notes:
-
-- The rotation parameter on any component can be omitted for no rotation
-- The options for jack size is `"35mm"` (for 3.5mm) or `"14in"` (for 1/4 inch) - if omitted, then it will be 3.5mm
-- The label below parameter for a switch can be omitted for no label below the switch
-
-Finally, generate the panel.
-```
-generatePanel();
-```
-The panel can also be flipped to be exported for printing.
-```
-panel_flipped = true;
-```
-
-### Advanced Usage
-A number of variables can be altered. Here is a list with their default values:
 ```
 margin = 0;
 text_depth = 1.4;
@@ -132,6 +66,123 @@ labels = [
 
 Each component also has an alternative form where the x-coordinate can be defined by millimeters as opposed to HP. This can be accomplished by adding `_mm` to the end of the component name.
 
+
+## Components
+
+Components are defined by arrays.
+
+
+### Buttons (Cherry-style)
+
+#### Variable: `keys`
+
+#### Parameters
+- `x` - number of horizontal units from the left
+- `y` - number of vertical units from the bottom
+- `label` - text placed below the button
+
+
+#### Examples
+Basic
+```
+hp = 4;
+keys = [
+    [2, 70, "KEYS"],
+];
+```
+
+Row
+```
+hp = 8;
+keys = [
+    [2, 70, "A"],
+    [6, 70, "B"],
+];
+```
+
+
+### Jacks
+
+#### Variable: `jacks`
+
+#### Parameters
+- `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
+- `y` - Number of vertical units from the bottom. Default is in milimeters.
+- `label` - Text placed below the button
+- `size` - The type of jack. (Options: `35mm` for 3.5mm jacks or `14in` for 1/4" jacks). Default: `35mm`.
+- `rotation` - Rotate the jack around the center of the hole.
+
+
+#### Examples
+Basic
+```
+jacks = [
+    [x (in HP column), y (mm), label, size, rotation (degrees)]
+];
+
+```
+### Hex Spacers
+Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm
+
+```
+spacers = [
+    [x, y, size (2, 2.5, 3, 4, 5, 6)]
+];
+```
+
+### LEDs
+```
+leds = [
+    [x (in HP column), y (mm), diameter (mm)]
+];
+```
+
+### Potentiometers (RV16)
+```
+pots = [
+    [x (in HP column), y (mm), label, rotation (degrees)]
+];
+```
+
+### Potentiometers (RD901F, RV06)
+```
+pots_rd901f = [
+    [x (in HP column), y (mm), label, rotation (degrees)]
+];
+```
+
+### Switches (MTS)
+Compatible with MTS-10x, MTS-20x, MTS-30x
+
+```
+switches = [
+    [x (in HP column), y (mm), label above, label below, rotation (degrees)]
+];
+```
+
+### Rectangular Holes
+
+```
+rectangular_holes = [
+    [x, y, inner_width (mm), inner_height (mm), outer_width (mm), outer_height (mm)]
+];
+```
+
+Add as many components as necessary in each array. Some notes:
+
+- The rotation parameter on any component can be omitted for no rotation
+- The options for jack size is `"35mm"` (for 3.5mm) or `"14in"` (for 1/4 inch) - if omitted, then it will be 3.5mm
+- The label below parameter for a switch can be omitted for no label below the switch
+
+Finally, generate the panel.
+```
+generatePanel();
+```
+The panel can also be flipped to be exported for printing.
+```
+panel_flipped = true;
+```
+
 ## Examples
 You can use `template.scad` as a starting point for your project.
 
@@ -147,7 +198,6 @@ I have included my own panels under `examples/benjiaomodular` for reference. Fee
 | squares | [squares.scad](examples/benjiaomodular/squares.scad) | ![Squares Preview](examples/benjiaomodular/squares.png)|
 | vca | [vca.scad](examples/benjiaomodular/vca.scad) | ![VCA Preview](examples/benjiaomodular/vca.png)|
 | wavefolder | [wavefolder.scad](examples/benjiaomodular/wavefolder.scad) | ![Wavefolder Preview](examples/benjiaomodular/wavefolder.png)|
-
 
 ## Contributing
 
