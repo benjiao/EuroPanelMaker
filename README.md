@@ -71,40 +71,28 @@ Each component also has an alternative form where the x-coordinate can be define
 
 Components are defined by arrays.
 
+### Hex Spacers (`spacers`)
+Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm.
 
-### Buttons (Cherry-style)
-
-#### Variable: `keys`
+```
+spacers = [
+    [x, y, size (2, 2.5, 3, 4, 5, 6)]
+];
+```
 
 #### Parameters
-- `x` - number of horizontal units from the left
-- `y` - number of vertical units from the bottom
-- `label` - text placed below the button
+- `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
+- `y` - Number of vertical units from the bottom. Default is in milimeters.
+- `size` - the size of the hex spacer. Usually designated with an "M" ie M2 or M3. Options: `2`, `2.5`, `3`, `4`, `5`, `6`
 
+---
 
-#### Examples
-Basic
+### Jacks (`jacks`)
 ```
-hp = 4;
-keys = [
-    [2, 70, "KEYS"],
+jacks = [
+    [x (in HP column), y (mm), label, size, rotation (degrees)]
 ];
 ```
-
-Row
-```
-hp = 8;
-keys = [
-    [2, 70, "A"],
-    [6, 70, "B"],
-];
-```
-
-
-### Jacks
-
-#### Variable: `jacks`
-
 #### Parameters
 - `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
 - `y` - Number of vertical units from the bottom. Default is in milimeters.
@@ -113,45 +101,75 @@ keys = [
 - `rotation` - Rotate the jack around the center of the hole.
 
 
-#### Examples
-Basic
+#### Example: Basic
 ```
+hp = 2;
 jacks = [
-    [x (in HP column), y (mm), label, size, rotation (degrees)]
-];
-
-```
-### Hex Spacers
-Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm
-
-```
-spacers = [
-    [x, y, size (2, 2.5, 3, 4, 5, 6)]
+    [1, 35, "A"]
 ];
 ```
 
-### LEDs
+--- 
+
+### Keys (Cherry-style): `keys`
+```
+keys = [
+    [x (in HP column), y (mm), label],
+];
+```
+
+#### Parameters
+- `x` - number of horizontal units from the left
+- `y` - number of vertical units from the bottom
+- `label` - text placed below the button
+
+
+#### Example: Basic
+```
+hp = 4;
+keys = [
+    [2, 70, "KEYS"],
+];
+```
+
+#### Example: Row of two
+```
+hp = 8;
+keys = [
+    [2, 70, "A"],
+    [6, 70, "B"],
+];
+```
+---
+
+### LEDs: `leds`
 ```
 leds = [
     [x (in HP column), y (mm), diameter (mm)]
 ];
 ```
 
-### Potentiometers (RV16)
+---
+
+### Potentiometers (RV16): `pots_rv16`
 ```
 pots = [
     [x (in HP column), y (mm), label, rotation (degrees)]
 ];
 ```
 
-### Potentiometers (RD901F, RV06)
+---
+
+### Potentiometers (RD901F, RV06): `pots_rd901f`
 ```
 pots_rd901f = [
     [x (in HP column), y (mm), label, rotation (degrees)]
 ];
 ```
 
-### Switches (MTS)
+---
+
+### Switches (MTS): `switches_mts`
 Compatible with MTS-10x, MTS-20x, MTS-30x
 
 ```
@@ -160,13 +178,18 @@ switches = [
 ];
 ```
 
-### Rectangular Holes
+---
+
+### Rectangular Holes: `rectangular_holes`
+Rectangular holes with an inset. Made initially for use with SSD1106 OLED screens. Screens will have to be hot glued on.
 
 ```
 rectangular_holes = [
     [x, y, inner_width (mm), inner_height (mm), outer_width (mm), outer_height (mm)]
 ];
 ```
+
+---
 
 Add as many components as necessary in each array. Some notes:
 
