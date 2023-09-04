@@ -4,29 +4,20 @@
 
 Eurorack panel generator for OpenSCAD by [@benjiaomodular](https://www.instagram.com/benjiaomodular/).
 
-## Sample Usage 
+## 1. How does it work? 
 ```
-import <EuroPanelMaker/panel.scad>
+import <EuroPanelMaker/panel.scad>   # import the library
 
-hp = 4;              # width of module in horizontal pitch
-title = "VCA"        # a title to display on top
-pots = [];
+hp = 4;                              # set width of module in horizontal pitch
+title = "VCA"                        # set a title to display on top
+
+pots = [];                           # make a list of components to render
 jacks = [];
 
-generatePanel();
+generatePanel();                     # call generate panel
 ```
 
-## Sample Usage 
-```
-import <EuroPanelMaker/panel.scad>
-
-hp = 4;              # width of module in horizontal pitch
-title = "VCA"        # a title to display on top
-pots = [];
-jacks = [];
-
-generatePanel();
-```
+Here's an example based on a handwired VCA .
 
 ![Template preview](preview.png)
 
@@ -34,28 +25,27 @@ I talked about how and why I developed this library on my Youtube channel. Spons
 
 [![Watch the video](https://img.youtube.com/vi/8PgxXPMlfh4/0.jpg)](https://youtu.be/8PgxXPMlfh4)
 
-## Installation
-## Installation
+## 2. Installation
 
-Download the [latest release](https://github.com/benjiaomodular/EuroPanelMaker/releases/latest) and copy the `EuroPanelMaker` folder into your project directory.
 Download the [latest release](https://github.com/benjiaomodular/EuroPanelMaker/releases/latest) and copy the `EuroPanelMaker` folder into your project directory.
 
 ![Project dir](projectdir.png)
 
-## Parameters
-## Parameters
+Import the library into your `.scad` file.
+```
+import <EuroPanelMaker/panel.scad>
+```
 
-### Mandatory variables
-### Mandatory variables
+## 3. Parameters
+
+### 3.1. Mandatory variables
 
 ```
 hp = 4;
 title = "VCA";
 ```
 
-### Optional parameters
-A number of variables can be altered. Instert any of these configurations before the list of components. Here is a list with their default values:
-### Optional parameters
+### 3.2. Optional parameters
 A number of variables can be altered. Instert any of these configurations before the list of components. Here is a list with their default values:
 
 ```
@@ -85,27 +75,14 @@ labels = [
 Each component also has an alternative form where the x-coordinate can be defined by millimeters as opposed to HP. This can be accomplished by adding `_mm` to the end of the component name.
 
 
-## Components
+## 4. Components
 
 Components are defined by arrays.
 
-### Hex Spacers (`spacers`)
-Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm.
 
-```
-spacers = [
-    [x, y, size (2, 2.5, 3, 4, 5, 6)]
-];
-```
+### 4.1. Jacks (`jacks`)
+This works well with [Thonkiconn](https://www.thonk.co.uk/shop/thonkiconn/) or [PJ-3001](https://www.taydaelectronics.com/pj-3001f-3-5-mm-mono-phone-jack.html) jacks, but I prefer using it with [PJ-301-B](https://www.lcsc.com/product-detail/Electrical-Switches_XKB-Connectivity-PJ-301-B_C692434.html) jacks with the wire loops.
 
-#### Parameters
-- `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
-- `y` - Number of vertical units from the bottom. Default is in milimeters.
-- `size` - the size of the hex spacer. Usually designated with an "M" ie M2 or M3. Options: `2`, `2.5`, `3`, `4`, `5`, `6`
-
----
-
-### Jacks (`jacks`)
 ```
 jacks = [
     [x (in HP column), y (mm), label, size, rotation (degrees)]
@@ -118,8 +95,7 @@ jacks = [
 - `size` - The type of jack. (Options: `35mm` for 3.5mm jacks or `14in` for 1/4" jacks). Default: `35mm`.
 - `rotation` - Rotate the jack around the center of the hole.
 
-
-#### Example: Basic
+#### Examples: Basic
 ```
 hp = 2;
 jacks = [
@@ -127,9 +103,39 @@ jacks = [
 ];
 ```
 
+#### Example: Row
+Jacks fit great 2HP appart.
+
+```
+hp = 4;
+jacks = [
+    [1, 35, "A"],
+    [3, 35, "B"]
+];
+```
+
+#### Example: Column
+When making a column, try a 18mm clearance between the jacks to clear the ground lugs.
+
+```
+hp = 2;
+jacks = [
+    [1, 38, "1"],
+    [1, 20, "B"]];
+```
+
+
+#### Example: Rotate 90 degrees
+```
+hp = 2;
+jacks = [
+    [1, 35, "A", "35mm", 90]
+];
+```
+
 --- 
 
-### Keys (Cherry-style): `keys`
+### 4.2. Keys (Cherry-style): `keys`
 ```
 keys = [
     [x (in HP column), y (mm), label],
@@ -151,16 +157,29 @@ keys = [
 ```
 
 #### Example: Row of two
+Keys with keycaps work great at 4HP appart.
 ```
 hp = 8;
 keys = [
     [2, 70, "A"],
-    [6, 70, "B"],
+    [6, 70, "B"]
 ];
 ```
+
+#### Example: Column of two
+
+Keys with keycaps work great at 4HP appart.
+```
+hp = 8;
+keys = [
+    [2, 70, "A"],
+    [2, 70, "B"],
+];
+```
+
 ---
 
-### LEDs: `leds`
+### 4.3. LEDs: `leds`
 ```
 leds = [
     [x (in HP column), y (mm), diameter (mm)]
@@ -169,7 +188,7 @@ leds = [
 
 ---
 
-### Potentiometers (RV16): `pots_rv16`
+### 4.4. Potentiometers (RV16): `pots_rv16`
 ```
 pots = [
     [x (in HP column), y (mm), label, rotation (degrees)]
@@ -178,7 +197,7 @@ pots = [
 
 ---
 
-### Potentiometers (RD901F, RV06): `pots_rd901f`
+### 4.5. Potentiometers (RD901F, RV06): `pots_rd901f`
 ```
 pots_rd901f = [
     [x (in HP column), y (mm), label, rotation (degrees)]
@@ -187,7 +206,23 @@ pots_rd901f = [
 
 ---
 
-### Switches (MTS): `switches_mts`
+### 4.6. Hex Spacers (`spacers`)
+Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm.
+
+```
+spacers = [
+    [x, y, size (2, 2.5, 3, 4, 5, 6)]
+];
+```
+
+#### Parameters
+- `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
+- `y` - Number of vertical units from the bottom. Default is in milimeters.
+- `size` - the size of the hex spacer. Usually designated with an "M" ie M2 or M3. Options: `2`, `2.5`, `3`, `4`, `5`, `6`
+
+---
+
+### 4.7. Switches (MTS): `switches_mts`
 Compatible with MTS-10x, MTS-20x, MTS-30x
 
 ```
@@ -198,7 +233,7 @@ switches = [
 
 ---
 
-### Rectangular Holes: `rectangular_holes`
+### 4.8. Rectangular Holes: `rectangular_holes`
 Rectangular holes with an inset. Made initially for use with SSD1106 OLED screens. Screens will have to be hot glued on.
 
 ```
@@ -225,123 +260,7 @@ panel_flipped = true;
 ```
 
 
-## Components
-
-Components are defined by arrays.
-
-
-### Buttons (Cherry-style)
-
-#### Variable: `keys`
-
-#### Parameters
-- `x` - number of horizontal units from the left
-- `y` - number of vertical units from the bottom
-- `label` - text placed below the button
-
-
-#### Examples
-Basic
-```
-hp = 4;
-keys = [
-    [2, 70, "KEYS"],
-];
-```
-
-Row
-```
-hp = 8;
-keys = [
-    [2, 70, "A"],
-    [6, 70, "B"],
-];
-```
-
-
-### Jacks
-
-#### Variable: `jacks`
-
-#### Parameters
-- `x` - Number of horizontal units from the left. Default is in HP (2.54mm).
-- `y` - Number of vertical units from the bottom. Default is in milimeters.
-- `label` - Text placed below the button
-- `size` - The type of jack. (Options: `35mm` for 3.5mm jacks or `14in` for 1/4" jacks). Default: `35mm`.
-- `rotation` - Rotate the jack around the center of the hole.
-
-
-#### Examples
-Basic
-```
-jacks = [
-    [x (in HP column), y (mm), label, size, rotation (degrees)]
-];
-
-```
-### Hex Spacers
-Compatible with 2mm, 2.5mm, 3mm, 4mm, 5mm, 6mm
-
-```
-spacers = [
-    [x, y, size (2, 2.5, 3, 4, 5, 6)]
-];
-```
-
-### LEDs
-```
-leds = [
-    [x (in HP column), y (mm), diameter (mm)]
-];
-```
-
-### Potentiometers (RV16)
-```
-pots = [
-    [x (in HP column), y (mm), label, rotation (degrees)]
-];
-```
-
-### Potentiometers (RD901F, RV06)
-```
-pots_rd901f = [
-    [x (in HP column), y (mm), label, rotation (degrees)]
-];
-```
-
-### Switches (MTS)
-Compatible with MTS-10x, MTS-20x, MTS-30x
-
-```
-switches = [
-    [x (in HP column), y (mm), label above, label below, rotation (degrees)]
-];
-```
-
-### Rectangular Holes
-
-```
-rectangular_holes = [
-    [x, y, inner_width (mm), inner_height (mm), outer_width (mm), outer_height (mm)]
-];
-```
-
-Add as many components as necessary in each array. Some notes:
-
-- The rotation parameter on any component can be omitted for no rotation
-- The options for jack size is `"35mm"` (for 3.5mm) or `"14in"` (for 1/4 inch) - if omitted, then it will be 3.5mm
-- The label below parameter for a switch can be omitted for no label below the switch
-
-Finally, generate the panel.
-```
-generatePanel();
-```
-The panel can also be flipped to be exported for printing.
-```
-panel_flipped = true;
-```
-
-## Examples
+## 5. More Examples
 You can use `template.scad` as a starting point for your project.
 
 I have included my own panels under `examples/benjiaomodular` for reference. Feel free to add a folder and submit a pull request if you'd like to include your own panels. 

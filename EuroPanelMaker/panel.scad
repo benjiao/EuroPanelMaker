@@ -23,7 +23,7 @@ hp = 6;
 w = hp * eurorack_w;
 c = w / 2;
 
-title = "Test";
+title = "";
 title_font_size = 4.5;
 title_font = "Liberation Sans:style=bold";
 title_x = w / 2;
