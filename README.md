@@ -93,7 +93,7 @@ jacks = [
 - `y` - Number of vertical units from the bottom. Default is in milimeters.
 - `label` - Text placed below the button
 - `size` - The type of jack. (Options: `35mm` for 3.5mm jacks or `14in` for 1/4" jacks). Default: `35mm`.
-- `rotation` - Rotate the jack around the center of the hole.
+- `rotation` - Rotate the jack around the center of the hole. Can be omitted for no rotation.
 
 #### Examples: Basic
 ```
@@ -246,8 +246,6 @@ rectangular_holes = [
 
 Add as many components as necessary in each array. Some notes:
 
-- The rotation parameter on any component can be omitted for no rotation
-- The options for jack size is `"35mm"` (for 3.5mm) or `"14in"` (for 1/4 inch) - if omitted, then it will be 3.5mm
 - The label below parameter for a switch can be omitted for no label below the switch
 
 Finally, generate the panel.
